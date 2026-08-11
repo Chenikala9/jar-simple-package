@@ -1,4 +1,4 @@
-name: Java CI
+name: Java CI Docker
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  build-and-docker:
 
     runs-on: ubuntu-latest
 
@@ -24,4 +24,13 @@ jobs:
       - name: Build JAR
         run: mvn clean package
 
-    
+      - name: Build Docker image
+        run: docker build -t myapp:1.0 .
+
+      - name: Run Docker container
+        run: docker run -d -p 8080:8080 --name myapp myapp:1.0
+
+      - name: Test application
+        run: |
+          sleep 15
+          curl http://localhost:8080
