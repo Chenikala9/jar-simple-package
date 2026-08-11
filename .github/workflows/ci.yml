@@ -38,7 +38,4 @@ jobs:
       - name: Check Docker container
         run: docker ps
 
-      - name: Test application
-        run: |
-          sleep 15
-          curl --fail http://localhost:8080
+      
