@@ -12,35 +12,33 @@ jobs:
 
     steps:
 
-      # 1. Get source code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Java 21
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: '21'
-          distribution: 'temurin'
+      - name: Check Java
+        run: java -version
 
-      # 3. Build JAR
+      - name: Check Maven
+        run: mvn -version
+
       - name: Build JAR
         run: mvn clean package
 
-      # 4. Build Docker image
       - name: Build Docker image
         run: docker build -t myapp:1.0 .
 
-      # 5. Run Docker container
       - name: Run Docker container
-        run: docker run -d -p 8080:8080 --name myapp myapp:1.0
+        run: |
+          docker rm -f myapp || true
+          docker run -d \
+            --name myapp \
+            -p 8080:8080 \
+            myapp:1.0
 
-      # 6. Check container
       - name: Check Docker container
         run: docker ps
 
-      # 7. Test Spring Boot application
       - name: Test application
         run: |
           sleep 15
-          curl http://localhost:8080
+          curl --fail http://localhost:8080
