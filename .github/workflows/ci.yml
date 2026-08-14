@@ -1,4 +1,4 @@
-name: Java CI
+name: govardhan first workflow
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  package_jar_build:
     runs-on: ubuntu-latest
 
     steps:
