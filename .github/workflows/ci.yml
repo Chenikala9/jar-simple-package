@@ -3,7 +3,7 @@ name: govardhan  first workflow
 on:
   push:
     branches:
-      - master
+      - feauture/login
 
 jobs:
   package_jar_build:
