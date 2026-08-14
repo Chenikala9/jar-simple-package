@@ -3,12 +3,12 @@ name: Java CI Docker
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build-and-docker:
 
-    runs-on: self-hosted
+    runs-on:  ubuntu-latest
 
     steps:
 
