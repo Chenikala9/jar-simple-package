@@ -1,9 +1,8 @@
 name: Java CI Docker
-
 on:
   push:
     branches:
-      - main
+      - featurebranch
 
 jobs:
   build-and-docker:
@@ -23,19 +22,5 @@ jobs:
 
       - name: Build JAR
         run: mvn clean package
-
-      - name: Build Docker image
-        run: docker build -t myapp:1.0 .
-
-      - name: Run Docker container
-        run: |
-          docker rm -f myapp || true
-          docker run -d \
-            --name myapp \
-            -p 8080:8080 \
-            myapp:1.0
-
-      - name: Check Docker container
-        run: docker ps
 
       
