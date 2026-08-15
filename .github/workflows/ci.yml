@@ -1,4 +1,4 @@
-name: Java Build and Docker Deploy
+name: Java Buildand Docker Deploy
 
 on:
   push:
