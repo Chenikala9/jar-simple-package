@@ -1,16 +1,17 @@
-name: govardhan  first workflow
+name: Java Build and Docker Deploy
 
 on:
   push:
     branches:
-      - feauture/login
+      - fea/payment
 
 jobs:
-  package_jar_build:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
 
     steps:
-      - name: Checkout code
+
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Java 21
@@ -23,5 +24,27 @@ jobs:
       - name: Check Java
         run: java -version
 
-      - name: Build with Maven
+      - name: Check Maven
+        run: mvn -version
+
+      - name: Build JAR
         run: mvn clean package
+
+      - name: Check JAR File
+        run: ls -l target/
+
+      - name: Build Docker Image
+        run: docker build -t my-java-app:latest .
+
+      - name: Stop and Remove Old Container
+        run: docker rm -f my-java-container || true
+
+      - name: Run New Container
+        run: |
+          docker run -d \
+            --name my-java-container \
+            -p 8080:8080 \
+            my-java-app:latest
+
+      - name: Check Running Container
+        run: docker ps
